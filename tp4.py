@@ -1,4 +1,5 @@
 import random
+import math
 from pilefile import *
 
 #Exercice 1
@@ -126,3 +127,114 @@ def tri_mixte(l, k):
     return res
 
 #Exercice 3
+
+def tri_chaine(s:str)->str:
+    #renvoie la chaine de caractère triée par ordre alphabétique
+    dic_alph={"a":0,"b":0,"c":0,"d":0,"e":0,"f":0,"g":0,"h":0,"i":0,"j":0,"k":0,"l":0,"m":0,"n":0,"o":0,"p":0,
+              "q":0,"r":0,"s":0,"t":0,"u":0,"v":0,"w":0,"x":0,"y":0,"z":0}
+    res=""
+    for i in range(len(s)):
+        dic_alph[s[i]]+=1
+    for cle,valeur in dic_alph.items():
+        for i in range(valeur):
+            res+=cle
+    return res
+
+
+def tri_insertion2(l):
+    for i in range(1, len(l)):
+        ref = l[i]
+        lo, hi = 0, i
+        while lo < hi:
+            mid = (lo + hi) // 2
+            if l[mid] <= ref:
+                lo = mid + 1
+            else:
+                hi = mid
+        for j in range(i, lo, -1):
+            l[j] = l[j - 1]
+        l[lo] = ref
+    return l
+
+def partitionner(l, deb, fin):
+    pivot = l[fin - 1]
+    borne_inf = deb
+    borne_sup = fin - 1
+    while borne_inf < borne_sup:
+        if l[borne_inf] < pivot:
+            borne_inf += 1
+        else:
+            l[borne_sup] = l[borne_inf]
+            l[borne_sup - 1] = l[borne_sup - 1]
+            l[borne_sup - 1] = l[borne_inf]
+    borne_sup -= 1
+    l[borne_inf] = pivot
+
+def tri_rapide(l, deb, fin):
+    if deb < fin - 1:
+        ind_pivot = partitionner(l, deb, fin)
+        tri_rapide(l, deb, ind_pivot)
+        tri_rapide(l, ind_pivot + 1, fin)
+
+def partitionner2(l, deb, fin):
+    pivot = l[deb]
+    borne_inf = deb
+    borne_sup = fin - 1
+    while borne_inf < borne_sup:
+        if l[borne_inf] < pivot:
+            borne_inf += 1
+        else:
+            l[borne_sup] = l[borne_inf]
+            l[borne_sup - 1] = l[borne_sup - 1]
+            l[borne_sup - 1] = l[borne_inf]
+    borne_sup -= 1
+    l[borne_inf] = pivot
+
+def tri_rapide2(l, deb, fin):
+    if deb < fin - 1:
+        ind_pivot = partitionner2(l, deb, fin)
+        tri_rapide(l, deb, ind_pivot)
+        tri_rapide(l, ind_pivot + 1, fin)
+
+def partitionner_rec(l, deb, fin, k=None, borne_inf=None):
+    if k is None:
+        k = deb
+    if borne_inf is None:
+        borne_inf = deb
+    pivot = l[fin - 1]
+    if k == fin - 1:
+        l[borne_inf], l[fin - 1] = l[fin - 1], l[borne_inf]
+        return borne_inf
+    if l[k] < pivot:
+        l[borne_inf], l[k] = l[k], l[borne_inf]
+        return partitionner_rec(l, deb, fin, k + 1, borne_inf + 1)
+    else:
+        return partitionner_rec(l, deb, fin, k + 1, borne_inf)
+
+#Exercice 4:
+
+def dist_origine(p):
+    return p[0] ** 2 + p[1] ** 2
+
+def tri_insertion(points):
+    l = points[:]
+    for i in range(1, len(l)):
+        ref = l[i]
+        d_ref = dist_origine(ref)
+        j = i - 1
+        while j >= 0 and dist_origine(l[j]) > d_ref:
+            l[j + 1] = l[j]
+            j -= 1
+        l[j + 1] = ref
+    return l
+
+def tri_selection(points):
+    l = points[:]
+    n = len(l)
+    for i in range(n - 1):
+        imin = i
+        for j in range(i + 1, n):
+            if dist_origine(l[j]) < dist_origine(l[imin]):
+                imin = j
+        l[i], l[imin] = l[imin], l[i]
+    return l
