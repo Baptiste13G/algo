@@ -132,14 +132,17 @@ class ListeChainee:
 
 
     def supprimer_negatifs(self):
+        while not self.est_vide() and self.__tete.get()<0:
+            self.__tete=self.__tete.suivant()
         if self.est_vide():
-            return None
+            return 
         else:              
             prec=self.__tete
-            for i in range(self.len()):
+            while prec.suivant() is not None:
                 if prec.__val<0:
-                    self.delete(i)
-                prec=prec.suivant()
+                    prec.set_suiv(prec.suivant())
+                else:
+                    prec=prec.suivant()
     
     def supprimer_doublons(self):
         tab=[]
