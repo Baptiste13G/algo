@@ -23,7 +23,7 @@ class ListeChainee:
         self.__tete=None
         
     def est_vide(self):
-        pass
+        return self.__tete is None
     
     def __str__(self):
         mess="["
@@ -63,7 +63,7 @@ class ListeChainee:
     def delete(self, ind):
         assert 0 <= ind < self.len()
         if ind==0:
-            self.tete=self.__tete.suivant()
+            self.__tete=self.__tete.suivant()
         else:
             prec=self.__tete
             for i in range(ind-1):
@@ -139,13 +139,15 @@ class ListeChainee:
         else:              
             prec=self.__tete
             while prec.suivant() is not None:
-                if prec.__val<0:
-                    prec.set_suiv(prec.suivant())
+                if prec.suivant().get() < 0:
+                    prec.set_suiv(prec.suivant().suivant())
                 else:
-                    prec=prec.suivant()
+                    prec = prec.suivant()
     
     def supprimer_doublons(self):
-        tab=[]
+        if self.est_vide():
+            return
+        tab=[self.__tete.get()]
         prec=self.__tete
         for i in range(self.len()):
             if prec.__val not in tab:
@@ -155,23 +157,29 @@ class ListeChainee:
             prec=prec.suivant()
     
     def supprimer_n_apres_m(self,n,m): #Supprime les n premiers éléments après les m premiers
-        if n==0:
-            return self
-        for i in range(m-1,self.len()):
-            while n>0:
-                self.delete(i)
-                n=n-1
+        if self.est_vide() or n<=0 or m<=0 or n+m > self.len():
+            return
+        courant= self.__tete
+        for _ in range(m-1):
+            courant=courant.suivant()
+        suivant=courant
+        for _ in range(n+1):
+            suivant=suivant.suivant()
+        courant.set_suiv(suivant)
         
     def inverser(self):
-        tab=[]
-        prec=self.__tete
-        for i in range(self.len()):
-            tab.append(prec.__val)
-            prec=prec.suivant()
+        tab = []
+        prec = self.__tete
+        while prec is not None:
+            tab.append(prec.get())
+            prec = prec.suivant()
         tab.reverse()
-        for i in range(self.len()):
-            self.delete(i)
+        while not self.est_vide():
+            self.delete(0)
         self.ajoute_liste(tab)
+        
+    def inverser2(self):
+        pass
         
     def fusionner(self,lc2):
         j=0
