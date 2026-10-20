@@ -185,3 +185,24 @@ class ListeChainee:
         j=0
         for i in range(self.len()):
             pass
+        
+    def permute_tete_queue(self):
+        if self.est_vide() or self.__tete.suivant() is None:
+            return
+        if self.__tete.suivant().suivant() is None:
+            a = self.__tete
+            b = a.suivant()
+            b.set_suiv(a)
+            a.set_suiv(None)
+            self.__tete = b
+            return
+        a = self.__tete   
+        avant_dernier = a
+        while avant_dernier.suivant().suivant() is not None:
+            avant_dernier = avant_dernier.suivant()
+        dernier = avant_dernier.suivant() 
+        deuxieme = a.suivant()
+        dernier.set_suiv(deuxieme)
+        avant_dernier.set_suiv(a) 
+        a.set_suiv(None)    
+        self.__tete = dernier

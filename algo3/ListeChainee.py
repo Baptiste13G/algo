@@ -23,7 +23,7 @@ class ListeChainee:
         self.__tete=None
         
     def est_vide(self):
-        pass
+        return self.__tete is None
     
     def __str__(self):
         mess="["
