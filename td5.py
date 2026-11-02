@@ -179,12 +179,38 @@ class ListeChainee:
         self.ajoute_liste(tab)
         
     def inverser2(self):
-        pass
+        precedent=None
+        courant=self.__tete
+        while courant is not None:
+            suivant_sauve=courant.suivant() #sauve = sauvegarder
+            courant.set_suiv(precedent)
+            precedent=courant
+            courant=suivant_sauve
+        self.__tete=precedent
         
-    def fusionner(self,lc2):
-        j=0
-        for i in range(self.len()):
-            pass
+    def fusionner(self,autre_liste):
+        sommet=Maillon(0)
+        courant=sommet
+        
+        p1=self.__tete
+        p2=autre_liste.__tete
+        
+        while p1 is not None and p2 is not None:
+            if p1.get()<=p2.get():
+                courant.set_suiv(p1)
+                p1=p1.suivant()
+            else:
+                courant.set_suiv(p2)
+                p2=p2.suivant()
+            courant=courant.suivant()
+        
+        if p1 is not None:
+            courant.set_suiv(p1)
+        else:
+            courant.set_suiv(p2)
+            
+        self.__tete=sommet.suivant()
+        
         
     def permute_tete_queue(self):
         if self.est_vide() or self.__tete.suivant() is None:

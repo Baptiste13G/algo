@@ -178,8 +178,6 @@ class ListeChainee:
             i += 1
         return lc1, lc2
     
-    def diviser2(self):
-        a=ListeChainee()
-        prec=self.__tete
+
         
         
