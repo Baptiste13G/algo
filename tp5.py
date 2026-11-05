@@ -9,6 +9,9 @@ class Maillon:
     def suivant(self):
         return self.__suiv
     
+    def set_val(self, v):
+        self.__val = v
+    
     def set_suiv(self,m): #m est un autre maillon
         self.__suiv=m
         
@@ -43,7 +46,7 @@ class ListeChainee:
         return nb
     
     def get(self,ind): #renvoie l'élément à l'indice ind
-        assert 0 <= ind <= self.len()
+        assert 0 <= ind < self.len()
         cpt=0
         m=self.__tete
         while cpt<ind :
@@ -85,7 +88,7 @@ class ListeChainee:
             return False
         prec=self.__tete
         while prec is not None:
-            if prec.__val==val:
+            if prec.get()==val:
                 return True
             prec=prec.suivant()
         return False
@@ -97,7 +100,7 @@ class ListeChainee:
         moy=0
         n=0
         while prec is not None:
-            moy+=prec.__val
+            moy+=prec.get()
             n+=1
             prec=prec.suivant()
         return moy / n
@@ -106,14 +109,14 @@ class ListeChainee:
         if self.est_vide():
             return []
         prec=self.__tete
-        mini=prec.__val
+        mini=prec.get()
         ind=0
         n=[]
         while prec is not None:
-            if prec.__val<mini:
-                mini=prec.__val
+            if prec.get()<mini:
+                mini=prec.get()
                 n=[ind]
-            elif prec.__val==mini:
+            elif prec.get()==mini:
                 n.append(ind)
             prec=prec.suivant()
             ind+=1
@@ -135,12 +138,12 @@ class ListeChainee:
         if self.est_vide() or self.__tete.suivant() is None:
             return 
         prec=self.__tete
-        tete=prec.__val
+        tete=prec.get()
         while prec.suivant() is not None:
             prec=prec.suivant()
-        queue=prec.__val
-        prec.__val=tete
-        self.__tete.__val=queue
+        queue=prec.get()
+        prec.set_val(tete)
+        self.__tete.set_val(queue)
         
     def premiere_repetition(self):
         if self.est_vide() or self.__tete.suivant() is None:
@@ -148,19 +151,20 @@ class ListeChainee:
         prec=self.__tete
         tab=[]
         while prec is not None:
-            if prec.__val not in tab:
-                tab.append(prec.__val)
+            if prec.get() not in tab:
+                tab.append(prec.get())
             else:
-                return prec.__val
+                return prec.get()
+            prec=prec.suivant()
         return None
     
     def permute_pairs(self):
         prec = self.__tete
         while prec is not None and prec.suivant() is not None:
             suiv = prec.suivant()
-            v = prec.__val
-            prec.__val = suiv.__val
-            suiv.__val = v
+            v = prec.get()
+            prec.set_val(suiv.get())
+            suiv.set_val(v)
             prec = suiv.suivant()
         return None
             
@@ -171,13 +175,9 @@ class ListeChainee:
         i = 0
         while prec is not None:
             if i % 2 == 0:
-                lc1.append(prec.__val)
+                lc1.append(prec.get())
             else:
-                lc2.append(prec.__val)
+                lc2.append(prec.get())
             prec = prec.suivant()
             i += 1
         return lc1, lc2
-    
-
-        
-        
