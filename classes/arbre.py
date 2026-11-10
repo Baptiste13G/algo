@@ -1,4 +1,3 @@
-
 from pilefile import *
 
 class Sommet:
@@ -138,7 +137,3 @@ class ArbreBinaire:
             return self.__racine.nb_sommets_dfs()
         return 0
     
-    
-tab=[1,2,3,4]
-print(max(tab))
-
