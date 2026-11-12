@@ -71,6 +71,7 @@ class ArbreBinaire:
     
     def __init__(self, racine=None):
         self.__racine = racine
+        
     def est_vide(self):      
         return self.__racine is None
     
