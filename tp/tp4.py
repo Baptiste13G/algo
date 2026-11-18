@@ -1,9 +1,6 @@
 import random
-<<<<<<< HEAD
-import math
-=======
->>>>>>> 5040e18 (algo)
-from pilefile import *
+from math import *  
+from classes.pilefile import *
 
 #Exercice 1
 
@@ -130,7 +127,6 @@ def tri_mixte(l, k):
     return res
 
 #Exercice 3
-<<<<<<< HEAD
 
 def tri_chaine(s:str)->str:
     #renvoie la chaine de caractère triée par ordre alphabétique
@@ -242,5 +238,4 @@ def tri_selection(points):
                 imin = j
         l[i], l[imin] = l[imin], l[i]
     return l
-=======
->>>>>>> 5040e18 (algo)
+
